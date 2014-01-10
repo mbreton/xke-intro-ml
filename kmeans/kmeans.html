@@ -11,9 +11,7 @@
 <script>
 
 function noise(centroid, x) {
-	var deltaX2 = (centroid[0] - x[0]) * (centroid[0] - x[0]),
-		deltaY2 = (centroid[1] - x[1]) * (centroid[1] - x[1]),
-		d = Math.sqrt(deltaX2 + deltaY2);
+	var d = distance(centroid, x);
 
 	if (d < 0.1) {
 		return [

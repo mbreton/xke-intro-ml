@@ -4,13 +4,14 @@
 	$$.kmeans = kmeans;
 	$$.randFloat = randFloat;
 	$$.KmeansDrawingContext = KmeansDrawingContext;
+	$$.distance = distance;
 
 	function kmeans(points, numClusters, centroids) {
 		var _centroids = centroids || pickStartingCentroids(numClusters, points);
 
 		var maxIter = 1000;
 
-		for (;maxIter--;) {
+		while (maxIter--) {
 			var partitioned = partitionUsingTheDistance(_centroids, points);
 			_centroids = updateCentroids(_centroids, partitioned);
 		}
@@ -29,7 +30,7 @@
 		var alreadyPicked = {},
 			picked = [];
 
-		for (;picked.length < n;) {
+		while (picked.length < n) {
 			var idx = randInt(0, points.length-1);
 			if (!alreadyPicked[idx]) {
 				picked.push(points[idx].slice(0));
@@ -115,7 +116,7 @@
 			centroids = [],
 			_noise = noise || noiseIdentityFunction;
 		
-		for (;numClusters--;) {
+		while (numClusters--) {
 			var centroid = [randFloat(-1, 1), randFloat(-1, 1)],
 				rawPoints = generateRadialCluster(centroid, sizePerCluster),
 				f = partial(_noise, centroid);
