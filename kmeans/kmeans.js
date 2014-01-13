@@ -47,17 +47,17 @@
 			partition[i] = [];
 		}
 
-		for (var k=0; k < points.length; k++) {
-			var closestCentroid = findClosestCentroid(centroids, points[k]);
-			partition[closestCentroid].push(points[k].slice(0));
-		}
+		points.forEach(function(point) {
+			var closestCentroid = findClosestCentroid(centroids, point);
+			partition[closestCentroid].push(point.slice(0));
+		});
 
 		return partition;
 	}
 
 	function findClosestCentroid(centroids, p) {
 		if (centroids.length <= 0) {
-			return;
+			return undefined;
 		}
 
 		var closest = 0,
@@ -131,7 +131,7 @@
 	}
 
 	function partial(fn) {
-		var argsArray = Array.prototype.slice.call(arguments, 0),
+		var argsArray = args2array(arguments),
 			partialArguments = argsArray.slice(1),
 			that = this;
 		return function() {
@@ -149,7 +149,7 @@
 			d = 0,
 			alpha = 0;
 
-		for (var i = 0; i < _clusterSize; i++) {
+		while (_clusterSize--) {
 			d = randFloat(0, _radius);
 			alpha = randFloat(0, 2*Math.PI);
 			clusterPoints.push([
@@ -159,6 +159,10 @@
 		}
 
 		return clusterPoints;
+	}
+
+	function args2array(argsObj) {
+		return [].slice.call(argsObj);
 	}
 
 	function randFloat(a, b) {
