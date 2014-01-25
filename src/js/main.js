@@ -10,10 +10,10 @@ $(function(){
     editor.getSession().setMode("ace/mode/javascript");
     editor.setShowPrintMargin(false);
 
-    editor.on("change", function(e){
+    editor.on("change", _.debounce(function(e){
         $backdrop.addClass('active');
         $iframe[0].contentWindow.location.reload();
-    });
+    }, 500));
 
     $iframe.load(_.bind(function(){
         $backdrop.removeClass('active');
