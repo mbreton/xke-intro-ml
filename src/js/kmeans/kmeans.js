@@ -139,8 +139,7 @@
     }
 
     function generateRadialCluster(centroid, clusterSize, radius) {
-        var _centroid = centroid || Math.random(),
-            _clusterSize = clusterSize || 100,
+        var _clusterSize = clusterSize || 100,
             _radius = radius || 0.2,
             clusterPoints = [],
             d = 0,
