@@ -5,7 +5,7 @@ $(function () {
     var $backdrop = $('#backdrop');
     var $iframe = $('#result');
     var LOCALSTORAGE_KEY = 'com.xebia.xke.ml.code';
-    var code = '';
+    var code = localStorage.getItem(LOCALSTORAGE_KEY);
 
     // Ace editor initializing ...
     var editor = ace.edit("editor");
@@ -13,9 +13,26 @@ $(function () {
     editor.getSession().setMode("ace/mode/javascript");
     editor.setShowPrintMargin(false);
 
-    if (!!localStorage && !!localStorage.getItem(LOCALSTORAGE_KEY)) {
-        code = localStorage.getItem(LOCALSTORAGE_KEY);
+    if (!!code) {
         editor.setValue(code);
+    } else {
+        setTimeout(function () {
+            introJs().setOptions({
+                showStepNumbers: false,
+                steps: [
+                    {
+                        element: ".ace_scroller",
+                        intro: "Vous trouverez ici votre éditeur où vous devrez implémenter les différents algorithmes des exercices",
+                        position: "right"
+                    },
+                    {
+                        element: ".ui.column.dimmable",
+                        intro: "Ici, vous aurez le résultat de ce vous être en train d'implémenter",
+                        position: "left"
+                    }
+                ]
+            }).start();
+        }, 200);
     }
 
     editor.on("change", _.debounce(function () {
@@ -30,9 +47,9 @@ $(function () {
         var script = $iframe[0].contentWindow.document.createElement("script");
         script.type = "text/javascript";
         script.innerHTML = code;
-        try{
+        try {
             $iframe[0].contentWindow.document.body.appendChild(script);
-        } catch (e){
+        } catch (e) {
             console.warn('An error has been detected in the written code.', e);
         }
     }, this));
