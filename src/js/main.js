@@ -49,6 +49,7 @@ $(function () {
         script.innerHTML = code;
         try {
             $iframe[0].contentWindow.document.body.appendChild(script);
+            $iframe[0].contentWindow.start();// call start function in the iframe
         } catch (e) {
             console.warn('An error has been detected in the written code.', e);
         }
