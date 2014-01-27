@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "ignore": [
     "**/.*",
-    "node_modules",
-    "components"
+    "node_modules"
   ],
   "dependencies": {
     "jquery": "~2.0.3",
