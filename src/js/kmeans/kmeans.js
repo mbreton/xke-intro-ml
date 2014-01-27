@@ -1,5 +1,5 @@
 (function ($$, undefined) {
-    'user strict';
+    "use strict";
 
     function kmeans (points, numClusters, centroids) {
         var _centroids = centroids || pickStartingCentroids(numClusters, points);
@@ -8,7 +8,7 @@
 
         while (maxIter--) {
             var partitioned = partitionUsingTheDistance(_centroids, points);
-            _centroids = updateCentroids(_centroids, partitioned);
+            _centroids = updateCentroids(partitioned);
         }
 
         return {
@@ -69,15 +69,8 @@
         return closest;
     }
 
-    function updateCentroids(centroids, partitioned) {
-        var newCentroids = [];
-
-        for (var i in partitioned) {
-            var currentCentroid = centroids[i];
-            newCentroids.push(determineNewCentroid(partitioned[i]));
-        }
-
-        return newCentroids;
+    function updateCentroids(partitioned) {
+        return _.map(partitioned,determineNewCentroid);
     }
 
     function determineNewCentroid(points) {
@@ -116,7 +109,7 @@
         while (numClusters--) {
             var centroid = [randFloat(-1, 1), randFloat(-1, 1)],
                 rawPoints = generateRadialCluster(centroid, sizePerCluster),
-                f = partial(_noise, centroid);
+                f = _.partial(_noise, centroid);
             points = points.concat(rawPoints.map(f));
             centroids.push(centroid);
         }
@@ -125,17 +118,6 @@
             points: points,
             centroids: centroids
         };
-    }
-
-    function partial(fn) {
-        var argsArray = args2array(arguments),
-            partialArguments = argsArray.slice(1),
-            that = this;
-        return function () {
-            var newArgs = Array.prototype.slice.call(arguments, 0),
-                actualArgs = partialArguments.concat(newArgs);
-            return fn.apply(that, actualArgs);
-        }
     }
 
     function generateRadialCluster(centroid, clusterSize, radius) {
@@ -155,10 +137,6 @@
         }
 
         return clusterPoints;
-    }
-
-    function args2array(argsObj) {
-        return [].slice.call(argsObj);
     }
 
     function randFloat(a, b) {
@@ -208,7 +186,7 @@
         clear: function () {
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
         }
-    }
+    };
 
     $$.kmeansGenerateDataset = generateDataset;
     $$.kmeans = kmeans;

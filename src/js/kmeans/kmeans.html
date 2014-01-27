@@ -1,46 +1,47 @@
 <!doctype html>
 <html>
 <head>
-<title>Kmeans</title>
+    <title>Kmeans</title>
 </head>
 <body>
 <canvas id="unlabeled-data-canvas" width="500" height="500"></canvas>
 <canvas id="kmeans-canvas" width="500" height="500"></canvas>
 <ul id="log"></ul>
+<script src="../../vendor/lodash/dist/lodash.min.js"></script>
 <script src="kmeans.js"></script>
 <script>
 
-function noise(centroid, x) {
-	var d = distance(centroid, x);
+    function noise(centroid, x) {
+        var d = distance(centroid, x);
 
-	if (d < 0.1) {
-		return [
-			x[0] + randFloat(0.1, 0.2),
-			x[1] + randFloat(0.1, 0.2)
-			]
-	}
-	return x;
-}
+        if (d < 0.1) {
+            return [
+                x[0] + randFloat(0.1, 0.2),
+                x[1] + randFloat(0.1, 0.2)
+            ]
+        }
+        return x;
+    }
 
-var data = kmeansGenerateDataset(4, 30, noise),
-	kmeansCanvas = document.getElementById('kmeans-canvas'),
-	drawingContext = new KmeansDrawingContext(kmeansCanvas),
-	unlabeledCanvas = document.getElementById('unlabeled-data-canvas'),
-	unlabeledDrawingContext = new KmeansDrawingContext(unlabeledCanvas);
+    var data = kmeansGenerateDataset(4, 30, noise),
+            kmeansCanvas = document.getElementById('kmeans-canvas'),
+            drawingContext = new KmeansDrawingContext(kmeansCanvas),
+            unlabeledCanvas = document.getElementById('unlabeled-data-canvas'),
+            unlabeledDrawingContext = new KmeansDrawingContext(unlabeledCanvas);
 
-unlabeledDrawingContext.renderDataSet(data.points);
+    unlabeledDrawingContext.renderDataSet(data.points);
 
-var clusters = kmeans(data.points, 4),
-	centroids = clusters.centroids,
-	colors = ["#9061C2",
-    "#14B694",
-    "#EB540A",
-    "#A18F68"];
+    var clusters = kmeans(data.points, 4),
+            centroids = clusters.centroids,
+            colors = ["#9061C2",
+                "#14B694",
+                "#EB540A",
+                "#A18F68"];
 
-for (var i = 0; i < centroids.length; i++) {
-	drawingContext.cross(centroids[i], colors[i]);
-	drawingContext.renderDataSet(clusters.partition[i], colors[i]);
-}
+    for (var i = 0; i < centroids.length; i++) {
+        drawingContext.cross(centroids[i], colors[i]);
+        drawingContext.renderDataSet(clusters.partition[i], colors[i]);
+    }
 
 </script>
 </body>

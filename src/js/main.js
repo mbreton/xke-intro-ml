@@ -1,4 +1,5 @@
 $(function(){
+    "use strict";
 
     // Dimmer initializing ...
     var $backdrop = $('#backdrop');
