@@ -4,7 +4,7 @@ $(function () {
     // Dimmer initializing ...
     var $iframe = $('#result');
     var LOCALSTORAGE_KEY = 'com.xebia.xke.ml.code';
-    var code = localStorage.getItem(LOCALSTORAGE_KEY);
+    var code = "";
 
     // Ace editor initializing ...
     var editor = ace.edit("editor");
@@ -15,6 +15,18 @@ $(function () {
         enableBasicAutocompletion: true
     });
 
+    var queryStringSrcStart = window.location.hash.indexOf("#src=");
+    if (queryStringSrcStart === 0) {
+        var encoded = window.location.hash.substring("#src=".length);
+        try {
+            code = decodeURIComponent(encoded);
+        } catch (e) {
+            console.log("unable to parse #src= uri component");
+        }
+    } else{
+        code = localStorage.getItem(LOCALSTORAGE_KEY) || "";
+    }
+
     if (!!code) {
         editor.setValue(code, -1);
     } else {
@@ -23,12 +35,12 @@ $(function () {
                 showStepNumbers: false,
                 steps: [
                     {
-                        element: ".ace_scroller",
+                        element: "#editor",
                         intro: "Vous trouverez ici votre éditeur où vous devrez implémenter les différents algorithmes des exercices",
                         position: "right"
                     },
                     {
-                        element: ".column.result",
+                        element: "#result",
                         intro: "Ici, vous aurez le résultat de ce vous être en train d'implémenter",
                         position: "left"
                     }
@@ -40,6 +52,7 @@ $(function () {
     editor.on("change", _.debounce(function () {
         code = editor.getValue();
         localStorage.setItem(LOCALSTORAGE_KEY, code);
+        window.location.hash = "#src="+ encodeURIComponent(code);
         $iframe[0].contentWindow.location.reload();
     }, 500));
 
