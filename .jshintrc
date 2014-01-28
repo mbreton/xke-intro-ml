@@ -25,7 +25,11 @@
         "ace",
         "_",
         "$",
-        "introJs"
+        "introJs",
+        "mocha",
+        "describe",
+        "it",
+        "chai"
     ],
 
 
