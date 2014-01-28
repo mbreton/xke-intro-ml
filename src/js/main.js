@@ -2,7 +2,6 @@ $(function () {
     "use strict";
 
     // Dimmer initializing ...
-    var $backdrop = $('#backdrop');
     var $iframe = $('#result');
     var LOCALSTORAGE_KEY = 'com.xebia.xke.ml.code';
     var code = localStorage.getItem(LOCALSTORAGE_KEY);
@@ -12,9 +11,12 @@ $(function () {
     editor.setTheme("ace/theme/ambiance");
     editor.getSession().setMode("ace/mode/javascript");
     editor.setShowPrintMargin(false);
+    editor.setOptions({
+        enableBasicAutocompletion: true
+    });
 
     if (!!code) {
-        editor.setValue(code);
+        editor.setValue(code, -1);
     } else {
         setTimeout(function () {
             introJs().setOptions({
@@ -26,7 +28,7 @@ $(function () {
                         position: "right"
                     },
                     {
-                        element: ".ui.column.dimmable",
+                        element: ".column.result",
                         intro: "Ici, vous aurez le résultat de ce vous être en train d'implémenter",
                         position: "left"
                     }
@@ -36,14 +38,12 @@ $(function () {
     }
 
     editor.on("change", _.debounce(function () {
-        $backdrop.addClass('active');
         code = editor.getValue();
         localStorage.setItem(LOCALSTORAGE_KEY, code);
         $iframe[0].contentWindow.location.reload();
     }, 500));
 
     $iframe.load(_.bind(function () {
-        $backdrop.removeClass('active');
         var script = $iframe[0].contentWindow.document.createElement("script");
         script.type = "text/javascript";
         script.innerHTML = code;
