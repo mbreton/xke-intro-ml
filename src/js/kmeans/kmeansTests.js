@@ -17,7 +17,7 @@ describe('Kmeans', function () {
     }
 
     function nbParamsOf(func) {
-        return getParamsOf(func).length;
+        return func.length;
     }
 
 
@@ -31,7 +31,7 @@ describe('Kmeans', function () {
         it('should return 7.0710678118654755 when we pass [0,0] and [5,5]', function () {
             window.distance([0, 0], [5, 5]).should.equal(7.0710678118654755);
         });
-        it('should return 7.0710678118654755 when we pass [5,3] and [7,2]', function () {
+        it('should return 2.23606797749979 when we pass [5,3] and [7,2]', function () {
             window.distance([5, 3], [7, 2]).should.equal(2.23606797749979);
         });
     });
