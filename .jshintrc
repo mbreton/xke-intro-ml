@@ -29,7 +29,10 @@
         "mocha",
         "describe",
         "it",
-        "chai"
+        "chai",
+        "sinon",
+        "beforeEach",
+        "afterEach"
     ],
 
 
