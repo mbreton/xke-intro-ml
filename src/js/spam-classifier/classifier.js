@@ -1,6 +1,3 @@
-var fs = require('fs'),
-	_ = require('lodash');
-
 function SpamClassifier(unknownWordProbability) {
 	this._unknownWordProbability = unknownWordProbability || 0.0001;
 }
@@ -112,31 +109,3 @@ function fromTextToBagOfWords(text) {
 		.countBy(_.identity)
 		.valueOf()
 }
-
-var content = fs.readFileSync('./SMSSpamCollection', {encoding : 'utf-8'}),
-	structuredContent = fromRawToStructured(content),
-	trainingData = structuredContent.slice(0, structuredContent.length-1000),
-	validationData = structuredContent.slice(structuredContent.length-1000, structuredContent.length);
-
-var transformation = _.compose(
-		bagOfWords,
-		removePunctuation
-	),
-	data = transformation(trainingData);
-
-var classifier = new SpamClassifier();
-classifier.train(data);
-
-var predOk = 0;
-for (var i = 0; i < validationData.length; i++) {
-	var msg = validationData[i],
-		isSpam = classifier.isSpam(msg.content),
-		predictionIsAccurate = false;
-	if ((isSpam && msg.type=='spam') || (!isSpam && msg.type=='ham')) {
-		predictionIsAccurate = true;
-		predOk++;
-	}
-}
-console.log('accuracy: ', predOk / validationData.length);
-console.log(classifier.isSpam("new promotion call 012854 to buy stuff, go to http://lawl !!"));
-console.log(classifier.isSpam('hi buddy, how u doin ?'));

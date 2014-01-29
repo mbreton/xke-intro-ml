@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <title>SMS spam classifier</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../vendor/mocha/mocha.css">
+</head>
+<body class="classifier">
+<div id="mocha" style="margin-right: 0px;"></div>
+<div id="results"></div>
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/lodash/dist/lodash.min.js"></script>
+<script src="../../vendor-offline/sinon-1.7.3.js"></script>
+<script src="../../vendor/mocha/mocha.js"></script>
+<script src="../../vendor/chai/chai.js"></script>
+<script src="classifierTests.js"></script>
+<script src="classifier.js"></script>
+<script>
+    function start() {
+
+        mocha.run(function(){
+            console.warn(arguments)
+        });
+
+    }
+
+    function datasetContentLoaded(content) {
+        var structuredContent = fromRawToStructured(content),
+                trainingData = structuredContent.slice(0, structuredContent.length-1000),
+                validationData = structuredContent.slice(structuredContent.length-1000, structuredContent.length);
+
+        var transformation = _.compose(
+                        bagOfWords,
+                        removePunctuation
+                ),
+                data = transformation(trainingData),
+                classifier = new SpamClassifier();
+
+        classifier.train(data);
+
+        var predOk = 0;
+        for (var i = 0; i < validationData.length; i++) {
+            var msg = validationData[i],
+                    isSpam = classifier.isSpam(msg.content),
+                    predictionIsAccurate = false;
+            if ((isSpam && msg.type=='spam') || (!isSpam && msg.type=='ham')) {
+                predictionIsAccurate = true;
+                predOk++;
+            }
+        }
+        jQuery("#results").html('accuracy: ' +  predOk / validationData.length);
+    }
+
+    jQuery.get('SMSSpamCollection', datasetContentLoaded);
+</script>
+</body>
+</html>
