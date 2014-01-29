@@ -18,6 +18,10 @@
     <script>
         function start() {
 
+            mocha.run(function(){
+                console.warn(arguments)
+            });
+
             function noise(centroid, x) {
                 var d = distance(centroid, x);
 

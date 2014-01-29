@@ -60,11 +60,11 @@ $(function () {
         var script = $iframe[0].contentWindow.document.createElement("script");
         script.type = "text/javascript";
         script.innerHTML = code;
-        try {
+        //try {
             $iframe[0].contentWindow.document.body.appendChild(script);
             $iframe[0].contentWindow.start();// call start function in the iframe
-        } catch (e) {
-            console.warn('An error has been detected in the written code.', e);
-        }
+        //} catch (e) {
+        //    console.warn('An error has been detected in the written code.', e);
+        //}
     }, this));
 });

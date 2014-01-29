@@ -55,21 +55,18 @@ describe('Kmeans', function () {
         });
         it('should call distance at least one time with the first passed centroid and the second parameter', function () {
             window.findClosestCentroid([[5,5]], [0,0]);
-            distanceFunc.callCount.should.be.equal(1);
-            distanceFunc.calledWith([5,5], [0,0]).should.be.true;
+            distanceFunc.callCount.should.equal(1);
+            distanceFunc.calledWith([5,5], [0,0]).should.true;
         });
         it('should call distance for each centroid form origin "p"', function () {
             window.findClosestCentroid([[1,4],[3,3],[5,2]], [2,2]);
-            distanceFunc.callCount.should.be.equal(3);
-            distanceFunc.calledWith([1,4], [2,2]).should.be.true;
-            distanceFunc.calledWith([3,3], [2,2]).should.be.true;
-            distanceFunc.calledWith([5,2], [2,2]).should.be.true;
+            distanceFunc.callCount.should.equal(3);
+            distanceFunc.calledWith([1,4], [2,2]).should.true;
+            distanceFunc.calledWith([3,3], [2,2]).should.true;
+            distanceFunc.calledWith([5,2], [2,2]).should.true;
         });
         it('should return the index of the closest centroid', function () {
-            window.findClosestCentroid([[1,4],[3,3],[5,2]], [2,2]).should.be.equal(1);
+            window.findClosestCentroid([[1,4],[3,3],[5,2]], [2,2]).should.equal(1);
         });
     });
 });
-
-
-mocha.run();
