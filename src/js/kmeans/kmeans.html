@@ -6,20 +6,21 @@
     <link rel="stylesheet" type="text/css" href="../../vendor/mocha/mocha.css">
 </head>
 <body class="kmean">
-    <div id="mocha" style="margin-right: 0px;"></div>
+    <div id="mocha"></div>
     <canvas id="kmeans-canvas" width="500" height="500"></canvas>
+
+    <!-- Scripts -->
     <script src="../../vendor/lodash/dist/lodash.min.js"></script>
     <script src="../../vendor-offline/sinon-1.7.3.js"></script>
     <script src="../../vendor/mocha/mocha.js"></script>
     <script src="../../vendor/chai/chai.js"></script>
-    <script src="kmeansTests.js">
-    </script>
+    <script src="../../vendor-offline/chai-things.js"></script>
+    <script src="kmeansTests.js"></script>
     <script src="kmeans.js"></script>
     <script>
         function start() {
 
             mocha.run(function(){
-                console.warn(arguments)
             });
 
             function noise(centroid, x) {

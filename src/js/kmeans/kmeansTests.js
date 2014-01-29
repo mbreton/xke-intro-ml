@@ -51,22 +51,74 @@ describe('Kmeans', function () {
             expect(typeof window.findClosestCentroid).equal('function', 'The findClosestCentroid function doesn\'t exist');
         });
         it('should take two parameters', function () {
-            nbParamsOf(window.findClosestCentroid).should.equal(2, 'The distance function doesn\'t contain two parameters');
+            nbParamsOf(window.findClosestCentroid).should.equal(2, 'The findClosestCentroid function doesn\'t contain two parameters');
         });
         it('should call distance at least one time with the first passed centroid and the second parameter', function () {
-            window.findClosestCentroid([[5,5]], [0,0]);
+            window.findClosestCentroid([
+                [5, 5]
+            ], [0, 0]);
             distanceFunc.callCount.should.equal(1);
-            distanceFunc.calledWith([5,5], [0,0]).should.true;
+            distanceFunc.calledWith([5, 5], [0, 0]).should.true;
         });
-        it('should call distance for each centroid form origin "p"', function () {
-            window.findClosestCentroid([[1,4],[3,3],[5,2]], [2,2]);
+        it('should call distance for each centroid from origin "p"', function () {
+            window.findClosestCentroid([
+                [1, 4],
+                [3, 3],
+                [5, 2]
+            ], [2, 2]);
             distanceFunc.callCount.should.equal(3);
-            distanceFunc.calledWith([1,4], [2,2]).should.true;
-            distanceFunc.calledWith([3,3], [2,2]).should.true;
-            distanceFunc.calledWith([5,2], [2,2]).should.true;
+            distanceFunc.calledWith([1, 4], [2, 2]).should.true;
+            distanceFunc.calledWith([3, 3], [2, 2]).should.true;
+            distanceFunc.calledWith([5, 2], [2, 2]).should.true;
         });
         it('should return the index of the closest centroid', function () {
-            window.findClosestCentroid([[1,4],[3,3],[5,2]], [2,2]).should.equal(1);
+            window.findClosestCentroid([
+                [1, 4],
+                [3, 3],
+                [5, 2]
+            ], [2, 2]).should.equal(1);
+        });
+    });
+
+    describe('The partitionUsingTheDistance function', function () {
+
+        function arrayShouldContains(array, expecteds){
+            expecteds.forEach(function(expected){
+                array.should.include.an.item.deep.equal(expected);
+            });
+        }
+
+        var findClosestCentroidFunc;
+        beforeEach(function () {
+            findClosestCentroidFunc = sinon.spy(window, "findClosestCentroid");
+        });
+
+        afterEach(function () {
+            findClosestCentroidFunc.restore();
+        });
+
+        it('should exist', function () {
+            expect(typeof window.partitionUsingTheDistance).equal('function', 'The partitionUsingTheDistance function doesn\'t exist');
+        });
+        it('should take two parameters, the first is the centroids, the second the points', function () {
+            nbParamsOf(window.partitionUsingTheDistance).should.equal(2, 'The partitionUsingTheDistance function doesn\'t contain two parameters');
+        });
+        it('should return an object', function () {
+            expect(window.partitionUsingTheDistance([], [])).to.be.an('object');
+        });
+        it('should group by points by centroid index according', function () {
+            var centroids = [ [1, 1], [1, 4], [4, 4] ];
+            var points = _.shuffle([
+                [0,0],[1,0], // first partition
+                [1,5],[0,4], // second partition
+                [5,5],[4,5]  // third partition
+            ]); // mix points
+
+            var partitions = window.partitionUsingTheDistance(centroids, points);
+            findClosestCentroidFunc.callCount.should.equal(6);
+            arrayShouldContains(partitions[0], [[0,0],[1,0]]);
+            arrayShouldContains(partitions[1], [[1,5],[0,4]]);
+            arrayShouldContains(partitions[2], [[5,5],[4,5]]);
         });
     });
 });

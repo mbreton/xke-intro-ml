@@ -3,7 +3,6 @@ $(function () {
 
     // Dimmer initializing ...
     var $iframe = $('#result');
-    var LOCALSTORAGE_KEY = 'com.xebia.xke.ml.code';
     var code = "";
 
     // Ace editor initializing ...
@@ -23,8 +22,6 @@ $(function () {
         } catch (e) {
             console.log("unable to parse #src= uri component");
         }
-    } else{
-        code = localStorage.getItem(LOCALSTORAGE_KEY) || "";
     }
 
     if (!!code) {
@@ -51,7 +48,6 @@ $(function () {
 
     editor.on("change", _.debounce(function () {
         code = editor.getValue();
-        localStorage.setItem(LOCALSTORAGE_KEY, code);
         window.location.hash = "#src="+ encodeURIComponent(code);
         $iframe[0].contentWindow.location.reload();
     }, 500));
@@ -60,11 +56,7 @@ $(function () {
         var script = $iframe[0].contentWindow.document.createElement("script");
         script.type = "text/javascript";
         script.innerHTML = code;
-        //try {
-            $iframe[0].contentWindow.document.body.appendChild(script);
-            $iframe[0].contentWindow.start();// call start function in the iframe
-        //} catch (e) {
-        //    console.warn('An error has been detected in the written code.', e);
-        //}
+        $iframe[0].contentWindow.document.body.appendChild(script);
+        $iframe[0].contentWindow.start();// call start function in the iframe
     }, this));
 });
