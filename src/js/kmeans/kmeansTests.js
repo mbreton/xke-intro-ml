@@ -106,7 +106,7 @@ describe('Kmeans', function () {
         it('should return an object', function () {
             expect(window.partitionUsingTheDistance([], [])).to.be.an('object');
         });
-        it('should group by points by centroid index according', function () {
+        it('should group points by centroids index according', function () {
             var centroids = [ [1, 1], [1, 4], [4, 4] ];
             var points = _.shuffle([
                 [0,0],[1,0], // first partition
@@ -119,6 +119,27 @@ describe('Kmeans', function () {
             arrayShouldContains(partitions[0], [[0,0],[1,0]]);
             arrayShouldContains(partitions[1], [[1,5],[0,4]]);
             arrayShouldContains(partitions[2], [[5,5],[4,5]]);
+        });
+    });
+
+    describe ('The determineNewCentroid function', function(){
+        it('should exist', function () {
+            expect(typeof window.determineNewCentroid).equal('function', 'The determineNewCentroid function doesn\'t exist');
+        });
+        it('should take one parameter, an array of point', function () {
+            nbParamsOf(window.determineNewCentroid).should.equal(1, 'The determineNewCentroid function doesn\'t contain one parameter');
+        });
+        it('should return a point', function () {
+            expect(window.determineNewCentroid([[]])).to.be.an("array").and.length(2);
+        });
+        it('should return the point if its passed alone', function () {
+            window.determineNewCentroid([[5,5]]).should.deep.equal([5,5]);
+        });
+        it('should return the barycenter of two points', function () {
+            window.determineNewCentroid([[5,5], [0,0]]).should.deep.equal([2.5,2.5]);
+        });
+        it('should return the barycenter of three points', function () {
+            window.determineNewCentroid([[4,4], [5,5], [0,0]]).should.deep.equal([3,3]);
         });
     });
 });
