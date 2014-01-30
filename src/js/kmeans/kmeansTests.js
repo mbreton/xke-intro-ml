@@ -36,7 +36,6 @@ describe('Kmeans', function () {
         }).should.be.true;
     }
 
-
     describe("The distance function", function () {
         it('should exist', function () {
             expect(typeof window.distance).equal('function', 'The distance function doesn\'t exist');
@@ -158,6 +157,35 @@ describe('Kmeans', function () {
             window.determineNewCentroid([[4,4], [5,5], [0,0]])
                 .should.be.an('array') // a point
                 .and.be.deep.equal([3,3]);
+        });
+    });
+
+    describe ('The updateCentroids function', function(){
+
+        var determineNewCentroidFunc;
+        beforeEach(function () {
+            determineNewCentroidFunc = sinon.spy(window, "determineNewCentroid");
+        });
+
+        afterEach(function () {
+            determineNewCentroidFunc.restore();
+        });
+
+        it('should exist', function () {
+            expect(typeof window.updateCentroids).equal('function', 'The updateCentroids function doesn\'t exist');
+        });
+        it('should take one parameter, the parameter is an array of grouped points by index of centroids', function () {
+            nbParamsOf(window.updateCentroids).should.equal(1, 'The determineNewCentroid function doesn\'t contain one parameter');
+        });
+        it('should return baryCenter of each group by calling determineNewCentroid function', function () {
+            var groupOfPoint = {
+                0: [[0,0],[1,0]], // first partition
+                1: [[1,5],[0,4]], // second partition
+                2: [[5,5],[4,5]]  // third partition
+            };
+            var baryCentersOfEachGroup = window.updateCentroids(groupOfPoint);
+            determineNewCentroidFunc.callCount.should.equal(3);
+            arrayShouldContainAll(baryCentersOfEachGroup, [0.5,0], [0.5,4.5], [4.5,5]);
         });
     });
 
