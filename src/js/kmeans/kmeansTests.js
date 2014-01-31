@@ -266,12 +266,11 @@ describe('Kmeans', function () {
             'array of centroids and the clusters of points (be careful: you should surly compute a last time ' +
             'partitionUsingTheDistance to have the last clusters)', function () {
 
-            pickStartingCentroids.restore(); // necessary because of SinonJS bug !
+            pickStartingCentroids.restore(); // necessary because of a SinonJS bug !
             var points = [ [1,1], [3,3], [8,8], [10,10] ], // points
                 nbClusters = 2; // number of cluster that we search
 
             var result = kmeans(points, nbClusters);
-            console.log(result);
             expect(result).to.be.an('object');
 
             expect(result).to.have.property('centroids')
