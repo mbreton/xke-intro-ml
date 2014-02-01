@@ -30,7 +30,7 @@ describe('Naive Bayes spam classifier', function () {
         });
         it('train method should have one parameter', function () {
             var classifier = new SpamClassifier();
-            nbParamsOf(classifier).should.equal(1, "The train method should have one parameter");
+            nbParamsOf(classifier.train).should.equal(1, "The train method should have one parameter");
         });
         it('should have an isSpam method', function () {
             var classifier = new SpamClassifier();
