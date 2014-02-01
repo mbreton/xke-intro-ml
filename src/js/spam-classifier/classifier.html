@@ -48,6 +48,8 @@
                 predOk++;
             }
         }
+        start();
+
         jQuery("#results").html('accuracy: ' +  predOk / validationData.length);
     }
 
