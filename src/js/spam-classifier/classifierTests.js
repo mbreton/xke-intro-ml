@@ -10,11 +10,6 @@ var expect = chai.expect;
 var assert = chai.assert;
 
 describe('Naive Bayes spam classifier', function () {
-    function getParamsOf(func) {
-        var funcStr = func.toString();
-        var params = funcStr.match(/^function(?:.*?)\((.*)\)(?:.*?)\{/)[1];
-        return params.replace(/ /g, '').split(',')
-    }
 
     function nbParamsOf(func) {
         return func.length;
