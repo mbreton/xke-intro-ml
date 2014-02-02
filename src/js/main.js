@@ -7,12 +7,12 @@ $(function () {
 
     var contextMapping = {
         'kmeans' : {
-            'result-page' : 'js/kmeans/kmeans.html'
+            'result-page' : 'kmeans/kmeans.html'
         },
         'naive-bayes' : {
-            'result-page' : 'js/spam-classifier/classifier.html'
+            'result-page' : 'spam-classifier/classifier.html'
         }
-    }
+    };
 
     $('.algo-link').click(function(e) {
         e.preventDefault();
