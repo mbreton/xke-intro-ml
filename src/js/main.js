@@ -29,14 +29,10 @@ $(function () {
         enableBasicAutocompletion: true
     });
 
-    var queryStringSrcStart = window.location.hash.indexOf("#src=");
-    if (queryStringSrcStart === 0) {
-        var encoded = window.location.hash.substring("#src=".length);
-        try {
-            code = decodeURIComponent(encoded);
-        } catch (e) {
-            console.log("unable to parse #src= uri component");
-        }
+    try {
+        code = atob(decodeURIComponent($.url().fparam("src")));
+    } catch (e) {
+        console.log("unable to parse the URL");
     }
 
     if (!!code) {
@@ -63,7 +59,7 @@ $(function () {
 
     editor.on("change", _.debounce(function () {
         code = editor.getValue();
-        window.location.hash = "#src="+ encodeURIComponent(code);
+        window.location.hash = "#src="+ encodeURIComponent(btoa(code));
         $iframe[0].contentWindow.location.reload();
     }, 500));
 
