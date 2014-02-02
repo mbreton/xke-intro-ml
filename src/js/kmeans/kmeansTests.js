@@ -286,7 +286,7 @@ describe('Kmeans', function () {
             var index2_2 = _.findIndex(result.centroids, function(centroid){
                 return centroid[0] === 2 && centroid[1] === 2;
             });
-            var index9_9 = ~~(!index2_2); // return 0 if 1, and 1 if 0
+            var index9_9 = ~~!index2_2; // return 0 if 1, and 1 if 0
 
             arrayShouldContainAll(result.partition[index9_9], [8,8], [10,10]);
             arrayShouldContainAll(result.partition[index2_2], [1,1], [3,3]);
