@@ -35,6 +35,62 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        copy: {
+            build: {
+                files:[
+                    {
+                        cwd: 'src',
+                        src: [ '*.{html,js}', 'kmeans/**', 'spam-classifier/**', 'img/**'],
+                        dest: 'build',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/vendor/ace-builds/src-min-noconflict',
+                        src: [ 'theme-ambiance.js', 'mode-javascript.js','worker-javascript.js'],
+                        dest: 'build',
+                        expand: true
+                    },
+                    {
+                        cwd: 'src/vendor/Semantic-UI/build/minified/',
+                        src: [ 'fonts/*'],
+                        dest: 'build/',
+                        expand: true
+                    },
+                ]
+            }
+        },
+        clean: {
+            all:{
+                src:['node_modules', 'src/vendor', '.tmp', 'build', 'src/css/*.css']
+            },
+            build:{
+                src: [ 'build', '.tmp', 'src/css/*.css' ]
+            },
+            tmp: {
+                src: [ '.tmp']
+            }
+        },
+        'useminPrepare': {
+            html: ['src/index.html', 'src/kmeans/kmeans.html', 'src/spam-classifier/classifier.html'],
+            options: {
+                dest: 'build'
+            }
+        },
+        usemin: {
+            html: 'build/**/*.html',
+            options: {
+                assetsDirs: ['src/img']
+            }
+        },
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        'build/**.{js,css,png,jpg,jpeg,gif,webp,svg}'
+                    ]
+                }
+            }
+        },
         watch: {
             options: {
                 nospawn: true,
@@ -42,7 +98,7 @@ module.exports = function (grunt) {
             },
             server: {
                 files: [
-                    'app.js',
+                    'src/app.js',
                     'routes/*.js'
                 ],
                 tasks: ['develop', 'delayed-livereload']
@@ -98,5 +154,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('install', ['bower','less']);
+    grunt.registerTask('build', ['clean:build', 'install', 'copy','useminPrepare','usemin','concat','uglify','cssmin','clean:tmp']);
     grunt.registerTask('start', ['develop','watch']);
 };

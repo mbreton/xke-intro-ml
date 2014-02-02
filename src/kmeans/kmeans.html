@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>Kmeans</title>
+    <!-- build:css /index.css -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <!-- endbuild -->
+    <!-- build:css /libs-test.css -->
+    <link rel="stylesheet" type="text/css" href="../vendor/mocha/mocha.css">
+    <!-- endbuild -->
+</head>
+<body class="kmean">
+<div id="mocha"></div>
+<canvas id="kmeans-canvas" width="500" height="500"></canvas>
+
+<!-- build:js /libs.js -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/lodash/dist/lodash.min.js"></script>
+<!-- endbuild -->
+
+<!-- build:js /libs-test.js -->
+<script src="../vendor-offline/sinon-1.7.3.js"></script>
+<script src="../vendor/mocha/mocha.js"></script>
+<script src="../vendor/chai/chai.js"></script>
+<script src="../vendor-offline/chai-things.js"></script>
+<!-- endbuild -->
+
+<script src="js/kmeansTests.js"></script>
+<script src="js/kmeans.js"></script>
+</body>
+</html>

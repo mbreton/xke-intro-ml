@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <title>SMS spam classifier</title>
+    <!-- build:css /index.css -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <!-- endbuild -->
+    <!-- build:css /libs-test.css -->
+    <link rel="stylesheet" type="text/css" href="../vendor/mocha/mocha.css">
+    <!-- endbuild -->
+</head>
+<body class="classifier">
+<div id="mocha" style="margin-right: 0px;"></div>
+<div id="results"></div>
+<!-- build:js /libs.js -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/lodash/dist/lodash.min.js"></script>
+<!-- endbuild -->
+
+<!-- build:js /libs-test.js -->
+<script src="../vendor-offline/sinon-1.7.3.js"></script>
+<script src="../vendor/mocha/mocha.js"></script>
+<script src="../vendor/chai/chai.js"></script>
+<script src="../vendor-offline/chai-things.js"></script>
+<!-- endbuild -->
+
+<script src="js/classifierTests.js"></script>
+<script src="js/classifier.js"></script>
+</body>
+</html>
