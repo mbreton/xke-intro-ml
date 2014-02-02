@@ -3,7 +3,14 @@ $(function () {
 
     // Dimmer initializing ...
     var $iframe = $('#result');
-    var code = "";
+    var code = "",
+        state = {};
+
+    try {
+        state = JSON.parse(atob(decodeURIComponent($.url().fparam("state"))));
+    } catch (e) {
+        console.log("unable to parse the URL");
+    }
 
     var contextMapping = {
         'kmeans' : {
@@ -29,11 +36,7 @@ $(function () {
         enableBasicAutocompletion: true
     });
 
-    try {
-        code = atob(decodeURIComponent($.url().fparam("src")));
-    } catch (e) {
-        console.log("unable to parse the URL");
-    }
+    code = state && state.code;
 
     if (!!code) {
         editor.setValue(code, -1);
@@ -58,8 +61,8 @@ $(function () {
     }
 
     editor.on("change", _.debounce(function () {
-        code = editor.getValue();
-        window.location.hash = "#src="+ encodeURIComponent(btoa(code));
+        var state = {code : editor.getValue()};
+        window.location.hash = "#state="+ encodeURIComponent(btoa(JSON.stringify(state)));
         $iframe[0].contentWindow.location.reload();
     }, 500));
 
