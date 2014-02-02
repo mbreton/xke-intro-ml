@@ -5,6 +5,21 @@ $(function () {
     var $iframe = $('#result');
     var code = "";
 
+    var contextMapping = {
+        'kmeans' : {
+            'result-page' : 'js/kmeans/kmeans.html'
+        },
+        'naive-bayes' : {
+            'result-page' : 'js/spam-classifier/classifier.html'
+        }
+    }
+
+    $('.algo-link').click(function(e) {
+        e.preventDefault();
+        var key = $(this).attr('href').substring(1);
+        $iframe[0].contentWindow.location = contextMapping[key]['result-page'];
+    });
+
     // Ace editor initializing ...
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/ambiance");
