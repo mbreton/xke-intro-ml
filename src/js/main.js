@@ -62,7 +62,7 @@ $(function () {
                     },
                     {
                         element: "#result",
-                        intro: "Ici, vous aurez le résultat de ce vous être en train d'implémenter",
+                        intro: "Ici, vous aurez le résultat de ce vous êtes en train d'implémenter",
                         position: "left"
                     }
                 ]
