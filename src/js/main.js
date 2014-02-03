@@ -12,6 +12,10 @@ $(function () {
         console.log("unable to parse the URL");
     }
 
+    state.context = state.context || 'kmeans';
+    state['kmeans'] = state['kmeans'] || {};
+    state['naive-bayes'] = state['naive-bayes'] || {};
+
     var contextMapping = {
         'kmeans' : {
             'result-page' : 'kmeans/kmeans.html'
@@ -21,10 +25,16 @@ $(function () {
         }
     };
 
+    function loadContextFromState(state) {
+        editor.setValue(state[state.context].code);
+        $iframe[0].contentWindow.location = contextMapping[state.context]['result-page'];
+    }
+
     $('.algo-link').click(function(e) {
         e.preventDefault();
-        var key = $(this).attr('href').substring(1);
-        $iframe[0].contentWindow.location = contextMapping[key]['result-page'];
+        var newContext = $(this).attr('href').substring(1);
+        state.context = newContext;
+        loadContextFromState(state);
     });
 
     // Ace editor initializing ...
@@ -36,7 +46,7 @@ $(function () {
         enableBasicAutocompletion: true
     });
 
-    code = state && state.code;
+    code = state && state[state.context] && state[state.context].code;
 
     if (!!code) {
         editor.setValue(code, -1);
@@ -61,7 +71,9 @@ $(function () {
     }
 
     editor.on("change", _.debounce(function () {
-        var state = {code : editor.getValue()};
+        state[state.context] = state[state.context] || {};
+        code = editor.getValue();
+        state[state.context].code = code;
         window.location.hash = "#state="+ encodeURIComponent(btoa(JSON.stringify(state)));
         $iframe[0].contentWindow.location.reload();
     }, 500));
