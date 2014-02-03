@@ -38,5 +38,7 @@ describe('Naive Bayes spam classifier', function () {
         });
     });
 
+    describe("")
+
 });
 
